@@ -1,0 +1,12 @@
+# Value Investing Heuristics - Dependencies
+# Install with: pip install -r requirements.txt
+
+pandas>=2.2
+numpy>=2.0
+requests>=2.32
+beautifulsoup4>=4.12
+lxml>=5.0
+yfinance>=0.2.40
+matplotlib>=3.9
+tabulate>=0.9
+pytest>=8.0

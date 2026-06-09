@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=70", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "value-investing-heuristics"
+version = "0.1.0"
+description = "Value investing portfolio screening with heuristic optimization and leak-aware backtesting."
+requires-python = ">=3.11"
+dependencies = [
+  "pandas>=2.2",
+  "numpy>=2.0",
+  "requests>=2.32",
+  "beautifulsoup4>=4.12",
+  "lxml>=5.0",
+  "yfinance>=0.2.40",
+  "matplotlib>=3.9",
+  "tabulate>=0.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+vih = "value_investing_heuristics.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
