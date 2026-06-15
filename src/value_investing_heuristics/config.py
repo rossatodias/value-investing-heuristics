@@ -54,7 +54,7 @@ class BacktestConfig:
     train_periods: int = 8
     embargo_periods: int = 1
     validation_periods: int = 2
-    test_periods: int = 1
+    test_periods: int = 4
     step_periods: int = 1
     min_assets: int = 5
     reporting_lag_days: int = 45
@@ -64,7 +64,7 @@ class BacktestConfig:
 
 THETA_BOUNDS = {
     "max_pl": (1.0, 25.0),
-    "max_pvpa": (0.3, 0.7),
+    "max_pvpa": (0.3, 3.0),
     "min_roe": (0.0, 0.30),
     "min_margem_liquida": (-0.10, 0.30),
     "min_liquidez_corrente": (0.5, 3.0),

@@ -21,7 +21,7 @@ def write_backtest_report(summary, selections, path):
         "- Test-set leakage: teste nao participa da escolha de parametros.",
         "- Custos: retornos liquidos por turnover (bps).",
         "- Long-only, winsorizacao apenas no treino.",
-        "- Survivorship bias: filtro IBrX-100 (quando disponivel).",
+        "- Universo: filtro IBrX-100 (quando disponivel) para restringir liquidez.",
         "- Rf: CDI anualizado (serie 4389/BCB).",
         "",
     ]
@@ -70,6 +70,10 @@ def write_backtest_report(summary, selections, path):
         "- Depende da qualidade do de/para CNPJ->ticker e precos ajustados.",
         "- Amostra 2021-2025: curta para conclusoes estatisticas fortes.",
         "- Custos simplificados em bps.",
-        "- Bounds do otimizador: P/VPA em [0.3, 0.7]. Baseline Graham: P/VPA <= 1.5.",
+        "- Survivorship bias NAO controlado: o filtro IBrX-100 usa composicao",
+        "  estatica atual (2024-2025) aplicada a todos os anos. Isso restringe o",
+        "  universo por liquidez, mas nao reconstroi a carteira historica; pode",
+        "  ate introduzir vies de sobrevivencia. Para corrigir, seria necessaria",
+        "  a composicao historica do indice por trimestre.",
     ])
     Path(path).write_text("\n".join(lines), encoding="utf-8")
