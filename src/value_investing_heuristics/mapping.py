@@ -14,44 +14,44 @@ from bs4 import BeautifulSoup
 from .data import normalize_cnpj
 
 
-# Mapeamento validado via CVM Dados Abertos + B3
-# Cobre os CNPJs presentes no itr_completo.csv do projeto
+# Mapeamento validado via maisretorno.com (fonte publica B3) + CVM Dados Abertos
+# Cobre os 34 CNPJs presentes no itr_completo.csv do projeto
+# Ticker selecionado = mais liquido (preferencial quando disponivel; units quando aplicavel)
 _KNOWN_CNPJ_TICKER = {
-    "00000000000191": "BBAS3",
-    "00001180000126": "JHSF3",
-    "00864214000106": "RADL3",
-    "02387241000160": "HAPV3",
-    "02429144000193": "ECOR3",
-    "02558157000162": "CVCB3",
-    "02800026000140": "MRFG3",
-    "03220438000173": "TOTS3",
-    "04423567000121": "POSI3",
-    "07526557000100": "NTCO3",
-    "07689002000189": "RAIZ4",
-    "07859971000130": "BBSE3",
-    "08312229000173": "TAEE11",
-    "08807432000110": "PCAR3",
-    "09346601000125": "VIVT3",
-    "10629105000168": "BPAC11",
-    "16404287000155": "AZZA3",
-    "16670085000155": "ENEV3",
-    "17155730000164": "EQTL3",
-    "33000167000101": "PETR4",
-    "33042730000104": "EMBR3",
-    "33256439000139": "ELET3",
-    "33611500000119": "VALE3",
-    "42150391000170": "SUZB3",
-    "50746577000115": "AZUL4",
-    "53113791000122": "RENT3",
-    "60840055000131": "SBSP3",
-    "60894730000105": "ITUB4",
-    "61079117000105": "BRFS3",
-    "67620377000114": "ABEV3",
-    "84429695000111": "WEGE3",
-    "89096457000155": "CPLE6",
-    "89637490000145": "CMIG4",
-    "92690783000109": "SLCE3",
-    "97837181000147": "GGBR4",
+    "00001180000126": "ELET6",   # Centrais Eletricas Brasileiras (Eletrobras) - PNB
+    "00864214000106": "ENGI11",  # Energisa - Units
+    "02387241000160": "RAIL3",   # Rumo (logistica ferroviaria)
+    "02429144000193": "CPFE3",   # CPFL Energia
+    "02558157000162": "VIVT3",   # Telefonica Brasil (Vivo)
+    "02800026000140": "COGN3",   # Cogna Educacao
+    "03220438000173": "EQTL3",   # Equatorial Energia
+    "04423567000121": "ENEV3",   # Eneva
+    "07526557000100": "ABEV3",   # Ambev
+    "07689002000189": "EMBR3",   # Embraer
+    "07859971000130": "TAEE11",  # Taesa - Units
+    "08312229000173": "EZTC3",   # EZ Tec (incorporadora)
+    "08807432000110": "YDUQ3",   # Yduqs (ex-Estacio)
+    "09346601000125": "B3SA3",   # B3 (bolsa)
+    "10629105000168": "PRIO3",   # Prio (ex-Petro Rio)
+    "16404287000155": "SUZB3",   # Suzano
+    "16670085000155": "RENT3",   # Localiza Rent a Car
+    "17155730000164": "CMIG4",   # Cemig - PN
+    "33000167000101": "PETR4",   # Petrobras - PN
+    "33042730000104": "CSNA3",   # Companhia Siderurgica Nacional (CSN)
+    "33256439000139": "UGPA3",   # Ultrapar
+    "33611500000119": "GGBR4",   # Gerdau - PN
+    "42150391000170": "BRKM5",   # Braskem - PNA
+    "50746577000115": "CSAN3",   # Cosan
+    "53113791000122": "TOTS3",   # Totvs
+    "60840055000131": "FLRY3",   # Fleury (laboratorios)
+    "60894730000105": "USIM5",   # Usiminas - PNA
+    "61079117000105": "ALPA4",   # Alpargatas - PN
+    "67620377000114": "BEEF3",   # Minerva (carnes)
+    "84429695000111": "WEGE3",   # WEG
+    "89096457000155": "SLCE3",   # SLC Agricola
+    "89637490000145": "KLBN11",  # Klabin - Units
+    "92690783000109": "GOAU4",   # Metalurgica Gerdau - PN
+    "97837181000147": "DXCO3",   # Dexco (ex-Duratex)
 }
 
 

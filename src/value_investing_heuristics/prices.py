@@ -11,11 +11,15 @@ import pandas as pd
 # Tickers que mudaram de codigo no Yahoo Finance
 _YAHOO_ALIASES = {
     "CPLE6": "CPLE3",    # Copel PN -> ON
+    "ELET6": "AXIA6",
+    "EMBR3": "EMBJ3",
+    "NTCO3": "NATU3",
+    "CCRO3": "MOTV3"
 }
 
 # Tickers temporariamente indisponiveis no Yahoo Finance
 _KNOWN_UNAVAILABLE = {
-    "EMBR3", "MRFG3", "AZUL4", "NTCO3", "BRFS3", "ELET3",
+    "MRFG3", "AZUL4", "BRFS3", "ELET3",
 }
 
 
