@@ -91,7 +91,11 @@ def period_returns(
     min_assets: int = 5,
     transaction_cost_bps: float = 0.0,
 ) -> tuple[pd.Series, pd.DataFrame]:
-    period_order = list(fundamentals["periodo"].drop_duplicates())
+    # Ordena cronologicamente por signal_date. O fold_frame coloca o treino
+    # primeiro, entao a ordem das linhas NAO e cronologica; usar essa ordem
+    # faria o "proximo periodo" do ultimo periodo de treino apontar para um
+    # periodo anterior (descartando seu retorno).
+    period_order = fundamentals.groupby("periodo")["signal_date"].min().sort_values().index.tolist()
     returns: dict[str, float] = {}
     rows: list[dict] = []
     previous_selection: set[str] = set()
@@ -146,7 +150,7 @@ def _turnover(previous: set[str], current: set[str]) -> float:
 
 
 def benchmark_returns(fundamentals: pd.DataFrame, prices: pd.DataFrame, periods: list[str], benchmark: str = "^BVSP") -> pd.Series:
-    period_order = list(fundamentals["periodo"].drop_duplicates())
+    period_order = fundamentals.groupby("periodo")["signal_date"].min().sort_values().index.tolist()
     out: dict[str, float] = {}
     for period in periods:
         idx = period_order.index(period)
@@ -217,8 +221,24 @@ def run_backtest(
 
         ga_logger = TrialLogger(trial_log_path, strategy=f"fold_{fold.fold_id}_ga")
         sa_logger = TrialLogger(trial_log_path, strategy=f"fold_{fold.fold_id}_sa")
-        ga_result = genetic_algorithm(fit, seed=seed + fold.fold_id, logger=ga_logger)
-        sa_result = simulated_annealing(fit, seed=seed + 1000 + fold.fold_id, logger=sa_logger)
+        # ga_result = genetic_algorithm(fit, seed=seed + fold.fold_id, logger=ga_logger)
+        ga_result = genetic_algorithm(
+            fit,
+            seed=seed + fold.fold_id,
+            logger=ga_logger,
+            population_size=30,
+            generations=40,
+            patience=10,
+        )
+        # sa_result = simulated_annealing(fit, seed=seed + 1000 + fold.fold_id, logger=sa_logger)
+        sa_result = simulated_annealing(
+            fit,
+            seed=seed + 1000 + fold.fold_id,
+            logger=sa_logger,
+            initial_temperature=1.0,
+            final_temperature=0.01,
+            cooling=0.9,
+        )
 
         convergence_data[f"fold{fold.fold_id}_ga"] = ga_result.history
         convergence_data[f"fold{fold.fold_id}_sa"] = sa_result.history

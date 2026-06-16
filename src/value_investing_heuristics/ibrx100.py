@@ -1,8 +1,15 @@
-"""Composicao do IBrX-100 para mitigacao de survivorship bias.
+"""Composicao do IBrX-100 para restringir o universo de ativos por liquidez.
 
 A API publica da B3 usa protecao Cloudflare, o que impede requests diretas.
-Este modulo usa uma composicao estatica do IBrX-100 (atualizada periodicamente)
-como aproximacao para filtrar o universo de ativos.
+Este modulo usa uma composicao ESTATICA atual do IBrX-100 como aproximacao
+para filtrar o universo de ativos.
+
+ATENCAO - survivorship bias: por ser estatica e atual, esta composicao NAO
+reconstroi a carteira historica do indice. Aplica-la a anos passados nao
+corrige survivorship bias e pode ate introduzi-lo (mantem apenas quem
+permaneceu no indice ate hoje). Use o filtro apenas como recorte de liquidez,
+nao como controle de sobrevivencia. Para um controle real, seria necessaria a
+composicao historica do IBrX-100 por trimestre.
 
 Para atualizar: acessar sistemaswebb3-listados.b3.com.br/indexPage/ via navegador,
 selecionar IBXX, exportar a lista e substituir _IBRX100_STATIC abaixo.
