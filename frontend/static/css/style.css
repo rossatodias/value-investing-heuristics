@@ -1,51 +1,32 @@
 /* =============================================================
    VIH — Value Investing Heuristics · Design System
-   Theme: Quant Dark
+   Theme: Clean · Tailwind Blue/Green · Light + Dark
    ============================================================= */
 
 /* --- Google Fonts --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* --- Design Tokens --- */
+/* --- Theme-agnostic tokens --- */
 :root {
-  /* Backgrounds */
-  --bg-primary: #0a0e17;
-  --bg-secondary: #111827;
-  --bg-tertiary: #1a2332;
-  --bg-elevated: #1e293b;
-  --bg-glass: rgba(17, 24, 39, 0.7);
+  /* Accent colors — Tailwind blue + emerald palette */
+  --accent-green: #10b981;   /* emerald-500 */
+  --accent-green-dim: rgba(16, 185, 129, 0.14);
+  --accent-red: #ef4444;     /* red-500 */
+  --accent-red-dim: rgba(239, 68, 68, 0.14);
+  --accent-blue: #2563eb;    /* blue-600 */
+  --accent-blue-dim: rgba(37, 99, 235, 0.12);
+  --accent-amber: #f59e0b;   /* amber-500 */
+  --accent-amber-dim: rgba(245, 158, 11, 0.14);
+  --accent-purple: #14b8a6;  /* teal-500 (replaces purple for blue/green palette) */
+  --accent-purple-dim: rgba(20, 184, 166, 0.14);
+  --accent-cyan: #06b6d4;    /* cyan-500 */
+  --accent-cyan-dim: rgba(6, 182, 212, 0.14);
+  --accent-rose: #f43f5e;    /* rose-500 */
+  --accent-rose-dim: rgba(244, 63, 94, 0.14);
 
-  /* Borders */
-  --border-default: #2d3a4d;
-  --border-subtle: #1e293b;
-  --border-focus: #3b82f6;
-
-  /* Text */
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-inverse: #0a0e17;
-
-  /* Accent colors */
-  --accent-green: #10b981;
-  --accent-green-dim: rgba(16, 185, 129, 0.15);
-  --accent-red: #ef4444;
-  --accent-red-dim: rgba(239, 68, 68, 0.15);
-  --accent-blue: #3b82f6;
-  --accent-blue-dim: rgba(59, 130, 246, 0.15);
-  --accent-amber: #f59e0b;
-  --accent-amber-dim: rgba(245, 158, 11, 0.15);
-  --accent-purple: #8b5cf6;
-  --accent-purple-dim: rgba(139, 92, 246, 0.15);
-  --accent-cyan: #06b6d4;
-  --accent-cyan-dim: rgba(6, 182, 212, 0.15);
-  --accent-rose: #f43f5e;
-  --accent-rose-dim: rgba(244, 63, 94, 0.15);
-
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  /* Gradients — blue → green, like the reference site */
+  --gradient-primary: linear-gradient(135deg, #2563eb, #10b981);
   --gradient-success: linear-gradient(135deg, #10b981, #06b6d4);
-  --gradient-header: linear-gradient(135deg, #0a0e17 0%, #111827 100%);
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -57,14 +38,6 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.3);
-  --shadow-glow-green: 0 0 20px rgba(16, 185, 129, 0.3);
-  --shadow-glow-purple: 0 0 20px rgba(139, 92, 246, 0.3);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -79,6 +52,69 @@
   --space-xl: 32px;
   --space-2xl: 48px;
   --space-3xl: 64px;
+}
+
+/* --- Dark theme (default) --- */
+:root,
+:root[data-theme="dark"] {
+  --bg-primary: #0b1120;     /* slate-950-ish */
+  --bg-secondary: #111a2e;
+  --bg-tertiary: #18233c;
+  --bg-elevated: #1e2b45;
+  --bg-glass: rgba(17, 26, 46, 0.72);
+
+  --border-default: #243352;
+  --border-subtle: #1a2540;
+  --border-focus: #2563eb;
+
+  --text-primary: #e8eef7;
+  --text-secondary: #9fb1c9;
+  --text-muted: #64748b;
+  --text-inverse: #0b1120;
+
+  --gradient-header: linear-gradient(135deg, #0b1120 0%, #111a2e 100%);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.38);
+  --shadow-lg: 0 10px 34px rgba(0, 0, 0, 0.48);
+  --shadow-glow-blue: 0 6px 18px rgba(37, 99, 235, 0.28);
+  --shadow-glow-green: 0 6px 18px rgba(16, 185, 129, 0.26);
+  --shadow-glow-purple: 0 6px 18px rgba(20, 184, 166, 0.26);
+}
+
+/* --- Light theme --- */
+:root[data-theme="light"] {
+  --bg-primary: #f6f9fc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eef3f8;
+  --bg-elevated: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.78);
+
+  --border-default: #dde5ee;
+  --border-subtle: #eaf0f6;
+  --border-focus: #2563eb;
+
+  --text-primary: #0f1b2d;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+
+  --gradient-header: linear-gradient(135deg, #f6f9fc 0%, #eef3f8 100%);
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 34px rgba(15, 23, 42, 0.12);
+  --shadow-glow-blue: 0 6px 18px rgba(37, 99, 235, 0.18);
+  --shadow-glow-green: 0 6px 18px rgba(16, 185, 129, 0.16);
+  --shadow-glow-purple: 0 6px 18px rgba(20, 184, 166, 0.16);
+}
+
+html {
+  transition: background var(--transition-base);
+}
+
+body {
+  transition: background var(--transition-base), color var(--transition-base);
 }
 
 /* --- Reset --- */
@@ -277,6 +313,39 @@ input, select, textarea {
   height: 16px;
 }
 
+/* --- Theme Toggle --- */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin-left: var(--space-sm);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background: var(--bg-tertiary);
+  color: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Show moon in dark mode, sun in light mode */
+.theme-toggle__sun { display: none; }
+.theme-toggle__moon { display: block; }
+
+:root[data-theme="light"] .theme-toggle__sun { display: block; }
+:root[data-theme="light"] .theme-toggle__moon { display: none; }
+
 /* --- Main Content --- */
 .main-content {
   flex: 1;
@@ -351,6 +420,47 @@ input, select, textarea {
 
 .card__body {
   padding: var(--space-lg);
+}
+
+/* --- Collapsible Card --- */
+.card__header--toggle {
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--transition-fast);
+}
+
+.card__header--toggle:hover {
+  background: var(--bg-tertiary);
+}
+
+.card__chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: transform var(--transition-base), color var(--transition-fast);
+}
+
+.card__chevron svg {
+  width: 18px;
+  height: 18px;
+}
+
+.card__header--toggle:hover .card__chevron {
+  color: var(--text-primary);
+}
+
+/* Collapsed state: hide body, rotate chevron to point right */
+.card--collapsed .card__body {
+  display: none;
+}
+
+.card--collapsed .card__header--toggle {
+  border-bottom: none;
+}
+
+.card--collapsed .card__chevron {
+  transform: rotate(-90deg);
 }
 
 .card__footer {
@@ -769,7 +879,7 @@ input, select, textarea {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   line-height: 1.8;
-  color: var(--text-secondary);
+  color: #9fb1c9;
 }
 
 .terminal__line {
@@ -784,7 +894,7 @@ input, select, textarea {
 }
 
 .terminal__text {
-  color: var(--text-secondary);
+  color: #9fb1c9;
   word-break: break-all;
 }
 
@@ -1082,7 +1192,7 @@ input, select, textarea {
 .markdown-body pre code {
   background: none;
   padding: 0;
-  color: var(--text-secondary);
+  color: #9fb1c9;
   font-size: 0.8rem;
   line-height: 1.6;
 }
@@ -1442,6 +1552,14 @@ input, select, textarea {
   height: 48px;
   color: var(--text-muted);
   margin-bottom: var(--space-md);
+}
+
+/* Icons inside buttons keep button styling, not the large muted glyph */
+.empty-state .btn svg {
+  width: 16px;
+  height: 16px;
+  color: inherit;
+  margin-bottom: 0;
 }
 
 .empty-state__title {

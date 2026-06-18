@@ -102,8 +102,23 @@
     window.VIH.updateStepper(stepperEl, state);
   }
 
+  // --- Theme toggle ---
+  function setupThemeToggle() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('vih-theme', next); } catch (e) { /* ignore */ }
+    });
+  }
+
   // --- Init ---
   function init() {
+    // Theme toggle
+    setupThemeToggle();
+
     // Set up nav listeners
     document.querySelectorAll('.topbar__nav-btn').forEach(btn => {
       btn.addEventListener('click', () => navigate(btn.dataset.page));

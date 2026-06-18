@@ -101,11 +101,16 @@
     activeStepIdx = state.activeStep || 0;
 
     container.innerHTML = `
-      <div class="page-header">
-        <h1 class="page-header__title">Pipeline de Execucao</h1>
-        <p class="page-header__description">
-          Execute as 5 etapas sequenciais para processar dados, otimizar e rodar o backtest.
-        </p>
+      <div class="page-header" style="display:flex; align-items:flex-start; justify-content:space-between; gap: var(--space-lg); flex-wrap: wrap;">
+        <div>
+          <h1 class="page-header__title">Pipeline de Execucao</h1>
+          <p class="page-header__description">
+            Execute as 5 etapas sequenciais para processar dados, otimizar e rodar o backtest.
+          </p>
+        </div>
+        <button class="btn btn--primary" id="btn-run-all">
+          ${VIH.Icons.play} Executar Pipeline Completo
+        </button>
       </div>
 
       <div class="stepper" id="pipeline-stepper">
@@ -118,6 +123,7 @@
     `;
 
     attachStepperListeners(state);
+    attachRunAllListener(state);
   }
 
   function renderStepperNodes(state) {
@@ -393,6 +399,50 @@
     document.getElementById('pipeline-stepper').innerHTML = renderStepperNodes(state);
     attachStepperListeners(state);
     VIH.checkFileStatus();
+
+    return stepState.status === 'completed';
+  }
+
+  // --- Run all steps sequentially ---
+  function attachRunAllListener(state) {
+    const btn = document.getElementById('btn-run-all');
+    if (btn) {
+      btn.addEventListener('click', () => runAll(state));
+    }
+  }
+
+  async function runAll(state) {
+    const btn = document.getElementById('btn-run-all');
+    const idleLabel = VIH.Icons.play + ' Executar Pipeline Completo';
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner spinner--sm"></span> Executando pipeline...';
+    }
+
+    let failed = false;
+    for (let i = 0; i < STEPS.length; i++) {
+      // Focus the step being executed so its terminal/logs are visible
+      activeStepIdx = i;
+      state.activeStep = i;
+      document.getElementById('step-detail-container').innerHTML = renderStepDetail(i, state);
+      document.getElementById('pipeline-stepper').innerHTML = renderStepperNodes(state);
+      attachStepperListeners(state);
+
+      const ok = await runStep(i, state);
+      if (!ok) {
+        failed = true;
+        break;
+      }
+    }
+
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = idleLabel;
+    }
+
+    if (!failed) {
+      VIH.navigate && (window.location.hash = '#dashboard', VIH.navigate('dashboard'));
+    }
   }
 
   function updateStepper(stepperEl, state) {
