@@ -12,7 +12,7 @@
       label: 'Preparacao de Dados',
       command: 'prepare',
       description: 'Processa ITRs da CVM e calcula indicadores fundamentalistas (P/L, P/VPA, ROE, etc.).',
-      input: 'itr_completo.csv',
+      input: 'data/raw/itr_completo.csv',
       output: 'data/processed/fundamentals.csv',
       iconKey: 'database',
     },
@@ -227,7 +227,7 @@
                     ${isRunning ? 'disabled' : ''}>
               ${isRunning ? '<span class="spinner spinner--sm"></span> Executando...' : VIH.Icons.play + ' Executar Etapa'}
             </button>
-            ${isCompleted ? VIH.createBadge('Concluido', 'green') : ''}
+            ${isCompleted ? VIH.createBadge('Concluido', 'blue') : ''}
             ${stepState.status === 'error' ? VIH.createBadge('Erro', 'red') : ''}
           </div>
 
@@ -249,6 +249,7 @@
         const idx = parseInt(el.dataset.index);
         activeStepIdx = idx;
         state.activeStep = idx;
+        VIH.persistState();
         document.getElementById('step-detail-container').innerHTML = renderStepDetail(idx, state);
         // Re-render stepper active state
         document.getElementById('pipeline-stepper').innerHTML = renderStepperNodes(state);
@@ -270,6 +271,7 @@
     if (costInput) {
       costInput.addEventListener('change', (e) => {
         state.costBps = parseFloat(e.target.value) || 10;
+        VIH.persistState();
       });
     }
 
@@ -282,6 +284,7 @@
         if (activeStepIdx > 0) {
           activeStepIdx--;
           state.activeStep = activeStepIdx;
+          VIH.persistState();
           document.getElementById('step-detail-container').innerHTML = renderStepDetail(activeStepIdx, state);
           document.getElementById('pipeline-stepper').innerHTML = renderStepperNodes(state);
           attachStepperListeners(state);
@@ -294,6 +297,7 @@
         if (activeStepIdx < STEPS.length - 1) {
           activeStepIdx++;
           state.activeStep = activeStepIdx;
+          VIH.persistState();
           document.getElementById('step-detail-container').innerHTML = renderStepDetail(activeStepIdx, state);
           document.getElementById('pipeline-stepper').innerHTML = renderStepperNodes(state);
           attachStepperListeners(state);
@@ -314,6 +318,7 @@
     const stepState = state.pipelineSteps[idx];
 
     stepState.status = 'running';
+    VIH.persistState();
     document.getElementById('step-detail-container').innerHTML = renderStepDetail(idx, state);
     document.getElementById('pipeline-stepper').innerHTML = renderStepperNodes(state);
     attachStepperListeners(state);
@@ -391,10 +396,11 @@
     } catch (err) {
       stepState.status = 'error';
       VIH.appendTerminalLine('step-terminal', `Erro de conexao: ${err.message}`, 'error');
-      VIH.appendTerminalLine('step-terminal', 'Verifique se o servidor API esta rodando (python api_server.py).', 'warn');
+      VIH.appendTerminalLine('step-terminal', 'Verifique se o servidor esta rodando (python main.py).', 'warn');
     }
 
     // Update UI
+    VIH.persistState();
     document.getElementById('step-detail-container').innerHTML = renderStepDetail(idx, state);
     document.getElementById('pipeline-stepper').innerHTML = renderStepperNodes(state);
     attachStepperListeners(state);
