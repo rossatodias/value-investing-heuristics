@@ -131,7 +131,7 @@
           'Sharpe Ratio',
           VIH.formatNumber(avgSharpe, 2),
           'Media dos folds (c/ CDI como Rf)',
-          'blue',
+          'indigo',
           'barChart'
         )}
         ${VIH.createKpiCard(
@@ -145,7 +145,7 @@
           'Sortino Ratio',
           VIH.formatNumber(avgSortino, 2),
           'Penaliza apenas volatilidade negativa',
-          'purple',
+          'violet',
           'activity'
         )}
         ${VIH.createKpiCard(
@@ -355,11 +355,11 @@
       <div class="card card--collapsible card--collapsed">
         <div class="card__header card__header--toggle">
           <div class="card__header-title">
-            <span style="color:var(--accent-purple)">${VIH.Icons.target}</span>
+            <span style="color:var(--accent-blue)">${VIH.Icons.target}</span>
             Acoes Selecionadas por Periodo
           </div>
           <div style="display:flex;align-items:center;gap:var(--space-md)">
-            <span class="badge badge--purple">backtest_selections.csv</span>
+            <span class="badge badge--blue">backtest_selections.csv</span>
             <span class="card__chevron">${VIH.Icons.chevronDown}</span>
           </div>
         </div>
@@ -377,11 +377,11 @@
       <div class="card card--collapsible card--collapsed" style="margin-top:var(--space-xl)">
         <div class="card__header card__header--toggle">
           <div class="card__header-title">
-            <span style="color:var(--accent-green)">${VIH.Icons.fileText}</span>
+            <span style="color:var(--accent-blue)">${VIH.Icons.fileText}</span>
             Relatorio do Backtest
           </div>
           <div style="display:flex;align-items:center;gap:var(--space-md)">
-            <span class="badge badge--green">backtest_report.md</span>
+            <span class="badge badge--blue">backtest_report.md</span>
             <span class="card__chevron">${VIH.Icons.chevronDown}</span>
           </div>
         </div>
