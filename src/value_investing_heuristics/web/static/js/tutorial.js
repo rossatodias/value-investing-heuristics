@@ -14,7 +14,7 @@
       <div class="page-header">
         <h1 class="page-header__title">Manual de Uso</h1>
         <p class="page-header__description">
-          Documentacao completa do pipeline Value Investing Heuristics (PO-236).
+          Documentacao completa do pipeline Value Investing Heuristics.
         </p>
       </div>
       <div id="tutorial-loading" class="empty-state">

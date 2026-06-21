@@ -23,6 +23,10 @@
   --accent-cyan-dim: rgba(6, 182, 212, 0.14);
   --accent-rose: #f43f5e;    /* rose-500 */
   --accent-rose-dim: rgba(244, 63, 94, 0.14);
+  --accent-indigo: #4f6bed;  /* indigo — distinct blue for KPI cards */
+  --accent-indigo-dim: rgba(79, 107, 237, 0.14);
+  --accent-violet: #8b5cf6;  /* violet — distinct purple for KPI cards */
+  --accent-violet-dim: rgba(139, 92, 246, 0.14);
 
   /* Gradients — Sage Emerald */
   --gradient-primary: linear-gradient(135deg, #5f8d7e, #4a7a6b);
@@ -305,7 +309,7 @@ input, select, textarea {
 .topbar__nav-btn.active {
   background: var(--accent-blue-dim);
   color: var(--accent-blue);
-  border-color: rgba(59, 130, 246, 0.3);
+  border-color: rgba(95, 141, 126, 0.35);
 }
 
 .topbar__nav-btn svg {
@@ -526,6 +530,8 @@ input, select, textarea {
 .kpi-card--purple::before { background: var(--accent-purple); opacity: 1; }
 .kpi-card--cyan::before { background: var(--accent-cyan); opacity: 1; }
 .kpi-card--amber::before { background: var(--accent-amber); opacity: 1; }
+.kpi-card--indigo::before { background: var(--accent-indigo); opacity: 1; }
+.kpi-card--violet::before { background: var(--accent-violet); opacity: 1; }
 
 .kpi-card__icon {
   width: 36px;
@@ -548,6 +554,8 @@ input, select, textarea {
 .kpi-card__icon--purple { background: var(--accent-purple-dim); color: var(--accent-purple); }
 .kpi-card__icon--cyan { background: var(--accent-cyan-dim); color: var(--accent-cyan); }
 .kpi-card__icon--amber { background: var(--accent-amber-dim); color: var(--accent-amber); }
+.kpi-card__icon--indigo { background: var(--accent-indigo-dim); color: var(--accent-indigo); }
+.kpi-card__icon--violet { background: var(--accent-violet-dim); color: var(--accent-violet); }
 
 .kpi-card__label {
   font-size: 0.75rem;
@@ -720,9 +728,9 @@ input, select, textarea {
 }
 
 .stepper__step--completed .stepper__circle {
-  border-color: var(--accent-green);
+  border-color: var(--accent-blue);
   color: #fff;
-  background: var(--accent-green);
+  background: var(--accent-blue);
 }
 
 .stepper__step--error .stepper__circle {
@@ -752,7 +760,7 @@ input, select, textarea {
 }
 
 .stepper__step--completed .stepper__label {
-  color: var(--accent-green);
+  color: var(--accent-blue);
 }
 
 .stepper__connector {
@@ -765,7 +773,7 @@ input, select, textarea {
 
 .stepper__step--completed + .stepper__step .stepper__connector,
 .stepper__step--completed .stepper__connector {
-  background: var(--accent-green);
+  background: var(--accent-blue);
 }
 
 /* --- Step Detail Card --- */
@@ -1192,7 +1200,7 @@ input, select, textarea {
   background: var(--bg-tertiary);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
-  color: var(--accent-cyan);
+  color: var(--accent-blue);
 }
 
 .markdown-body pre {
@@ -1252,6 +1260,18 @@ input, select, textarea {
   background: var(--accent-blue-dim);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   color: var(--text-secondary);
+}
+
+/* Inline code inside the note/blockquote: dark sage to harmonize with the
+   green-tinted background instead of low-contrast blue/cyan. */
+.markdown-body blockquote code {
+  background: rgba(74, 122, 107, 0.16);
+  color: #3a5d51;
+}
+
+:root[data-theme="dark"] .markdown-body blockquote code {
+  background: rgba(122, 168, 152, 0.18);
+  color: #a7c4b8;
 }
 
 .markdown-body hr {
@@ -1367,7 +1387,7 @@ input, select, textarea {
 .config-card__value {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--accent-cyan);
+  color: var(--accent-blue);
   margin-bottom: var(--space-xs);
 }
 

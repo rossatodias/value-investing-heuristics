@@ -25,6 +25,10 @@ dev = ["pytest>=8.0"]
 
 [project.scripts]
 vih = "value_investing_heuristics.cli:main"
+vih-web = "value_investing_heuristics.web.server:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+value_investing_heuristics = ["web/static/**/*", "web/templates/**/*"]
