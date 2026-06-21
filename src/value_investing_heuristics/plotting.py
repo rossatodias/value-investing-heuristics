@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from .data import parse_period
+
 
 _STYLE = {
     "font.family": "sans-serif",
@@ -25,12 +27,14 @@ _STYLE = {
 }
 
 _COLORS = {
-    "ga": "#2196F3",
-    "sa": "#FF9800",
-    "graham_fixed": "#4CAF50",
-    "benchmark": "#9E9E9E",
-    "chosen": "#E91E63",
-    "ibovespa": "#9E9E9E",
+    "chosen_ga": "#9467bd",   # roxo
+    "chosen_sa": "#8c564b",   # marrom
+    "chosen": "#d62728",      # vermelho (estrategia escolhida)
+    "graham_fixed": "#2ca02c",  # verde
+    "ga": "#1f77b4",          # azul
+    "sa": "#ff7f0e",          # laranja
+    "benchmark": "#7f7f7f",   # cinza
+    "ibovespa": "#7f7f7f",    # cinza
 }
 
 
@@ -41,10 +45,46 @@ def _ensure_dir(path: str | Path) -> Path:
 
 
 def _color(name: str) -> str:
-    for key, c in _COLORS.items():
-        if key in name.lower():
-            return c
-    return "#607D8B"
+    # Longest matching key wins, so "graham_fixed"/"chosen_ga" don't collapse
+    # onto the "ga"/"sa" colors (substring traps).
+    low = name.lower()
+    best_key = ""
+    for key in _COLORS:
+        if key in low and len(key) > len(best_key):
+            best_key = key
+    return _COLORS[best_key] if best_key else "#607D8B"
+
+
+def _fmt_period(period) -> str:
+    try:
+        year, quarter = parse_period(period)
+        return f"{year} T{quarter}"
+    except (ValueError, AttributeError):
+        return str(period)
+
+
+def _ordered_periods(series_list) -> list:
+    """Ordered union of the period labels across all return series."""
+    keys = set()
+    for s in series_list:
+        keys.update(s.index)
+
+    def sort_key(period):
+        try:
+            return parse_period(period)
+        except (ValueError, AttributeError):
+            return (0, 0)
+
+    return sorted(keys, key=sort_key)
+
+
+def _apply_period_axis(ax, periods, label="Periodo") -> None:
+    """Label the x-axis with the actual quarters (the start shows as the first tick)."""
+    ax.set_xlabel(label)
+    if not periods:
+        return
+    ax.set_xticks(range(len(periods)))
+    ax.set_xticklabels([_fmt_period(p) for p in periods], rotation=45, ha="right", fontsize=8)
 
 
 # -- Convergencia AG --
@@ -106,24 +146,27 @@ def plot_sa_trajectory(history, title="Trajetoria SA", path="outputs/plots/sa_tr
 
 def plot_cumulative_returns(strategies, benchmark=None, title="Retorno Acumulado", path="outputs/plots/cumulative_returns.png"):
     out = _ensure_dir(path)
+    series_list = list(strategies.values()) + ([benchmark] if benchmark is not None else [])
+    periods = _ordered_periods(series_list)
+    pos = {p: i for i, p in enumerate(periods)}
     with plt.rc_context(_STYLE):
         fig, ax = plt.subplots(figsize=(10, 5))
 
         for name, returns in strategies.items():
             returns = returns.sort_index()
             wealth = (1.0 + returns.fillna(0)).cumprod()
-            ax.plot(range(len(wealth)), wealth.values, color=_color(name),
+            ax.plot([pos[p] for p in wealth.index], wealth.values, color=_color(name),
                     linewidth=2, label=name, marker="o", markersize=3)
 
         if benchmark is not None:
             benchmark = benchmark.sort_index()
             bw = (1.0 + benchmark.fillna(0)).cumprod()
-            ax.plot(range(len(bw)), bw.values, color=_COLORS["benchmark"],
+            ax.plot([pos[p] for p in bw.index], bw.values, color=_COLORS["benchmark"],
                     linewidth=2, linestyle="--", label="Ibovespa", marker="s", markersize=3)
 
         ax.axhline(1.0, color="black", linewidth=0.5, alpha=0.3)
-        ax.set_xlabel("Periodo")
-        ax.set_ylabel("Riqueza acumulada (base 1.0)")
+        _apply_period_axis(ax, periods)
+        ax.set_ylabel("Crescimento de R$ 1 investido")
         ax.set_title(title)
         ax.legend(fontsize=8)
         fig.savefig(out)
@@ -135,17 +178,20 @@ def plot_cumulative_returns(strategies, benchmark=None, title="Retorno Acumulado
 
 def plot_drawdown(strategies, title="Drawdown", path="outputs/plots/drawdown.png"):
     out = _ensure_dir(path)
+    periods = _ordered_periods(list(strategies.values()))
+    pos = {p: i for i, p in enumerate(periods)}
     with plt.rc_context(_STYLE):
         fig, ax = plt.subplots(figsize=(10, 4))
         for name, returns in strategies.items():
             returns = returns.sort_index()
             wealth = (1.0 + returns.fillna(0)).cumprod()
             dd = (wealth / wealth.cummax() - 1.0) * 100
+            xs = [pos[p] for p in dd.index]
             c = _color(name)
-            ax.fill_between(range(len(dd)), dd.values, 0, alpha=0.15, color=c)
-            ax.plot(range(len(dd)), dd.values, color=c, linewidth=1.5, label=name)
+            ax.fill_between(xs, dd.values, 0, alpha=0.15, color=c)
+            ax.plot(xs, dd.values, color=c, linewidth=1.5, label=name)
 
-        ax.set_xlabel("Periodo")
+        _apply_period_axis(ax, periods)
         ax.set_ylabel("Drawdown (%)")
         ax.set_title(title)
         ax.legend(fontsize=8)
@@ -201,22 +247,25 @@ def plot_portfolio_composition(selections, title="Composicao do Portfolio", path
         return _ensure_dir(path)
 
     out = _ensure_dir(path)
+    periods = _ordered_periods([selections.set_index("periodo")["n_assets"]])
+    pos = {p: i for i, p in enumerate(periods)}
     with plt.rc_context(_STYLE):
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6), sharex=True)
         for strategy, group in selections.groupby("strategy"):
+            group = group.sort_values("periodo", key=lambda s: s.map(pos))
+            xs = group["periodo"].map(pos)
             c = _color(str(strategy))
-            ax1.plot(group["periodo"], group["n_assets"], marker="o", markersize=4,
+            ax1.plot(xs, group["n_assets"], marker="o", markersize=4,
                      linewidth=1.5, color=c, label=str(strategy))
-            ax2.plot(group["periodo"], group["turnover"], marker="s", markersize=4,
+            ax2.plot(xs, group["turnover"], marker="s", markersize=4,
                      linewidth=1.5, color=c, label=str(strategy))
 
         ax1.set_ylabel("N. de ativos")
         ax1.set_title(title)
         ax1.legend(fontsize=7, ncol=2)
         ax2.set_ylabel("Turnover")
-        ax2.set_xlabel("Periodo")
         ax2.legend(fontsize=7, ncol=2)
-        plt.xticks(rotation=45, fontsize=7)
+        _apply_period_axis(ax2, periods)
         fig.tight_layout()
         fig.savefig(out)
         plt.close(fig)
