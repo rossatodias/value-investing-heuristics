@@ -88,53 +88,21 @@ fundamentals.csv (data/processed/)
 
 | Arquivo                | Descricao                                          | Como obter                               |
 |------------------------|----------------------------------------------------|------------------------------------------|
-| `itr_completo.csv`     | Demonstrativos ITR consolidados da CVM             | Baixar do portal de dados abertos da CVM |
+| `data/raw/itr_completo.csv` | Demonstrativos ITR consolidados da CVM        | Baixar do portal de dados abertos da CVM |
 | `data/raw/cnpj_ticker_map.csv` | Mapeamento CNPJ -> ticker na B3              | `vih fetch-mapping` (automatico)         |
 | `data/raw/prices.csv`  | Precos ajustados (Yahoo Finance)                   | `vih fetch-prices` (automatico)          |
 | `data/processed/cdi.csv` | Serie CDI anualizada (BCB)                       | `vih fetch-cdi` (automatico)             |
 | `data/processed/ibrx100_history.csv` | Composicao historica IBrX-100      | `vih fetch-ibrx100` (automatico)         |
 
-> **Nota:** Somente o `itr_completo.csv` precisa ser obtido manualmente. Todos os outros
+> **Nota:** Somente o `data/raw/itr_completo.csv` precisa ser obtido manualmente. Todos os outros
 > arquivos sao gerados automaticamente pelos subcomandos do `vih`.
 
 ---
 
 ## 4. Configuracao do Ambiente Virtual
 
-### Linux / WSL
-
-```bash
-cd /home/rossato/comp/po236/ExameIA
-
-# Criar ambiente virtual
-python3 -m venv .venv
-
-# Ativar
-source .venv/bin/activate
-
-# Instalar dependencias
-pip install -r requirements.txt
-
-# Instalar o pacote em modo editavel (necessario para o entry-point 'vih')
-pip install -e .
-
-# Verificar que funciona
-vih --help
-```
-
-### Windows PowerShell
-
-```powershell
-cd C:\caminho\para\ExameIA
-
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-
-pip install -r requirements.txt
-pip install -e .
-
-vih --help
-```
+Consulte a secao **Ambiente** do [README.md](README.md) para a instalacao
+(criacao do venv e `pip install -e ".[dev]"`).
 
 > Se `vih` nao for reconhecido apos `pip install -e .`, use:
 > `python -m value_investing_heuristics.cli` no lugar de `vih`.
@@ -146,7 +114,7 @@ vih --help
 ### Passo 1: Preparar os dados fundamentalistas
 
 ```bash
-vih prepare --input itr_completo.csv
+vih prepare --input data/raw/itr_completo.csv
 ```
 
 - Le o CSV bruto dos ITRs da CVM.
@@ -227,7 +195,7 @@ Saidas geradas em `outputs/`:
 ### Execucao completa (tudo de uma vez)
 
 ```bash
-vih run-all --input itr_completo.csv --cost-bps 10
+vih run-all --input data/raw/itr_completo.csv --cost-bps 10
 ```
 
 Executa `prepare` seguido de `backtest` com configuracoes padrao.
@@ -374,7 +342,7 @@ pytest -v
 Os testes unitarios estao em `tests/`. Para rodar um teste especifico:
 
 ```bash
-pytest tests/test_metrics.py -v
+pytest tests/test_backtest.py -v
 ```
 
 ---
