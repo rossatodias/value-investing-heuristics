@@ -8,24 +8,24 @@
 
 /* --- Theme-agnostic tokens --- */
 :root {
-  /* Accent colors — Tailwind blue + emerald palette */
+  /* Accent colors — Nordic/Slate palette */
   --accent-green: #10b981;   /* emerald-500 */
   --accent-green-dim: rgba(16, 185, 129, 0.14);
   --accent-red: #ef4444;     /* red-500 */
   --accent-red-dim: rgba(239, 68, 68, 0.14);
-  --accent-blue: #2563eb;    /* blue-600 */
-  --accent-blue-dim: rgba(37, 99, 235, 0.12);
+  --accent-blue: #5f8d7e;    /* Sage Emerald */
+  --accent-blue-dim: rgba(95, 141, 126, 0.14);
   --accent-amber: #f59e0b;   /* amber-500 */
   --accent-amber-dim: rgba(245, 158, 11, 0.14);
-  --accent-purple: #14b8a6;  /* teal-500 (replaces purple for blue/green palette) */
+  --accent-purple: #14b8a6;  /* teal-500 */
   --accent-purple-dim: rgba(20, 184, 166, 0.14);
   --accent-cyan: #06b6d4;    /* cyan-500 */
   --accent-cyan-dim: rgba(6, 182, 212, 0.14);
   --accent-rose: #f43f5e;    /* rose-500 */
   --accent-rose-dim: rgba(244, 63, 94, 0.14);
 
-  /* Gradients — blue → green, like the reference site */
-  --gradient-primary: linear-gradient(135deg, #2563eb, #10b981);
+  /* Gradients — Sage Emerald */
+  --gradient-primary: linear-gradient(135deg, #5f8d7e, #4a7a6b);
   --gradient-success: linear-gradient(135deg, #10b981, #06b6d4);
 
   /* Typography */
@@ -54,57 +54,57 @@
   --space-3xl: 64px;
 }
 
-/* --- Dark theme (default) --- */
+/* --- Dark theme (default) — Nordic/Slate --- */
 :root,
 :root[data-theme="dark"] {
-  --bg-primary: #0b1120;     /* slate-950-ish */
-  --bg-secondary: #111a2e;
-  --bg-tertiary: #18233c;
-  --bg-elevated: #1e2b45;
-  --bg-glass: rgba(17, 26, 46, 0.72);
+  --bg-primary: #16181d;     /* Anthracite */
+  --bg-secondary: #1c1e24;   /* Graphite */
+  --bg-tertiary: #24262d;    /* Slate */
+  --bg-elevated: #2c2f37;    /* Lifted */
+  --bg-glass: rgba(22, 24, 29, 0.80);
 
-  --border-default: #243352;
-  --border-subtle: #1a2540;
-  --border-focus: #2563eb;
+  --border-default: #32353d;
+  --border-subtle: #272930;
+  --border-focus: #5f8d7e;    /* Sage Emerald */
 
-  --text-primary: #e8eef7;
-  --text-secondary: #9fb1c9;
-  --text-muted: #64748b;
-  --text-inverse: #0b1120;
+  --text-primary: #e4e5e9;
+  --text-secondary: #9a9da6;
+  --text-muted: #5c5f69;
+  --text-inverse: #16181d;
 
-  --gradient-header: linear-gradient(135deg, #0b1120 0%, #111a2e 100%);
+  --gradient-header: linear-gradient(135deg, #16181d 0%, #1c1e24 100%);
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.38);
   --shadow-lg: 0 10px 34px rgba(0, 0, 0, 0.48);
-  --shadow-glow-blue: 0 6px 18px rgba(37, 99, 235, 0.28);
+  --shadow-glow-blue: 0 6px 18px rgba(95, 141, 126, 0.22);
   --shadow-glow-green: 0 6px 18px rgba(16, 185, 129, 0.26);
   --shadow-glow-purple: 0 6px 18px rgba(20, 184, 166, 0.26);
 }
 
-/* --- Light theme --- */
+/* --- Light theme — Nordic/Slate --- */
 :root[data-theme="light"] {
-  --bg-primary: #f6f9fc;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #eef3f8;
+  --bg-primary: #f3f4f6;      /* Ice */
+  --bg-secondary: #ffffff;     /* Snow */
+  --bg-tertiary: #e8eaed;     /* Frost */
   --bg-elevated: #ffffff;
-  --bg-glass: rgba(255, 255, 255, 0.78);
+  --bg-glass: rgba(243, 244, 246, 0.84);
 
-  --border-default: #dde5ee;
-  --border-subtle: #eaf0f6;
-  --border-focus: #2563eb;
+  --border-default: #d1d5db;
+  --border-subtle: #e8eaed;
+  --border-focus: #5f8d7e;     /* Sage Emerald */
 
-  --text-primary: #0f1b2d;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --text-inverse: #ffffff;
+  --text-primary: #1a1c22;
+  --text-secondary: #4b5058;
+  --text-muted: #9a9da6;
+  --text-inverse: #e4e5e9;
 
-  --gradient-header: linear-gradient(135deg, #f6f9fc 0%, #eef3f8 100%);
+  --gradient-header: linear-gradient(135deg, #f3f4f6 0%, #e8eaed 100%);
 
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 12px 34px rgba(15, 23, 42, 0.12);
-  --shadow-glow-blue: 0 6px 18px rgba(37, 99, 235, 0.18);
+  --shadow-sm: 0 1px 2px rgba(26, 28, 34, 0.06);
+  --shadow-md: 0 4px 14px rgba(26, 28, 34, 0.08);
+  --shadow-lg: 0 12px 34px rgba(26, 28, 34, 0.12);
+  --shadow-glow-blue: 0 6px 18px rgba(95, 141, 126, 0.14);
   --shadow-glow-green: 0 6px 18px rgba(16, 185, 129, 0.16);
   --shadow-glow-purple: 0 6px 18px rgba(20, 184, 166, 0.16);
 }
@@ -410,12 +410,20 @@ input, select, textarea {
   gap: var(--space-sm);
   font-size: 0.9rem;
   font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card__header-title > span {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .card__header-title svg {
   width: 18px;
   height: 18px;
-  color: var(--accent-blue);
+  color: inherit;
+  flex-shrink: 0;
 }
 
 .card__body {
@@ -840,7 +848,7 @@ input, select, textarea {
 
 /* --- Terminal --- */
 .terminal {
-  background: #0d1117;
+  background: #12141a;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -1120,6 +1128,7 @@ input, select, textarea {
   width: 14px;
   height: 14px;
   color: var(--accent-blue);
+  flex-shrink: 0;
 }
 
 .plot-card img {
@@ -1133,6 +1142,12 @@ input, select, textarea {
   color: var(--text-primary);
   line-height: 1.7;
   font-size: 0.9rem;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  scroll-margin-top: 80px;
 }
 
 .markdown-body h1 {
@@ -1181,8 +1196,8 @@ input, select, textarea {
 }
 
 .markdown-body pre {
-  background: #0d1117;
-  border: 1px solid var(--border-default);
+  background: #12141a;
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: var(--space-md);
   overflow-x: auto;
@@ -1192,7 +1207,7 @@ input, select, textarea {
 .markdown-body pre code {
   background: none;
   padding: 0;
-  color: #9fb1c9;
+  color: var(--text-secondary);
   font-size: 0.8rem;
   line-height: 1.6;
 }
@@ -1515,6 +1530,11 @@ input, select, textarea {
 .tutorial-nav__item--sub {
   padding-left: var(--space-xl);
   font-size: 0.75rem;
+}
+
+.tutorial-nav__item--subsub {
+  padding-left: calc(var(--space-xl) + var(--space-lg));
+  font-size: 0.72rem;
 }
 
 /* --- Status Indicator --- */
