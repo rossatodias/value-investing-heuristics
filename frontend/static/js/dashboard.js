@@ -191,7 +191,7 @@
       <div class="card" style="margin-bottom:var(--space-xl)">
         <div class="card__header">
           <div class="card__header-title">
-            ${VIH.Icons.image}
+            <span style="color:var(--accent-blue)">${VIH.Icons.image}</span>
             Graficos Principais
           </div>
         </div>
@@ -250,7 +250,7 @@
       <div class="card" style="margin-bottom:var(--space-xl)">
         <div class="card__header">
           <div class="card__header-title">
-            ${VIH.Icons.zap}
+            <span style="color:var(--accent-blue)">${VIH.Icons.zap}</span>
             Convergencia dos Otimizadores
           </div>
         </div>
@@ -300,7 +300,7 @@
       <div class="card card--collapsible card--collapsed">
         <div class="card__header card__header--toggle">
           <div class="card__header-title">
-            ${VIH.Icons.table}
+            <span style="color:var(--accent-blue)">${VIH.Icons.table}</span>
             Metricas do Backtest
           </div>
           <div style="display:flex;align-items:center;gap:var(--space-md)">
@@ -355,7 +355,7 @@
       <div class="card card--collapsible card--collapsed">
         <div class="card__header card__header--toggle">
           <div class="card__header-title">
-            ${VIH.Icons.target}
+            <span style="color:var(--accent-purple)">${VIH.Icons.target}</span>
             Acoes Selecionadas por Periodo
           </div>
           <div style="display:flex;align-items:center;gap:var(--space-md)">
@@ -377,7 +377,7 @@
       <div class="card card--collapsible card--collapsed" style="margin-top:var(--space-xl)">
         <div class="card__header card__header--toggle">
           <div class="card__header-title">
-            ${VIH.Icons.fileText}
+            <span style="color:var(--accent-green)">${VIH.Icons.fileText}</span>
             Relatorio do Backtest
           </div>
           <div style="display:flex;align-items:center;gap:var(--space-md)">

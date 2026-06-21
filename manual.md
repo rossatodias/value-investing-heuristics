@@ -1,4 +1,4 @@
-# Manual do Projeto — Value Investing Heuristics (PO-236)
+# Manual do Projeto — Value Investing Heuristics
 
 ## 1. Visao Geral
 
