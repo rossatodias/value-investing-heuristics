@@ -37,36 +37,6 @@
     return res.json();
   }
 
-  // --- Pipeline state persistence (survives page refresh) ---
-  const PIPELINE_KEY = 'vih-pipeline';
-
-  function persistState() {
-    try {
-      localStorage.setItem(PIPELINE_KEY, JSON.stringify({
-        activeStep: state.activeStep,
-        costBps: state.costBps,
-        statuses: state.pipelineSteps.map(s => s.status),
-      }));
-    } catch (e) { /* ignore */ }
-  }
-
-  function loadState() {
-    try {
-      const raw = localStorage.getItem(PIPELINE_KEY);
-      if (!raw) return;
-      const saved = JSON.parse(raw);
-      if (typeof saved.activeStep === 'number') state.activeStep = saved.activeStep;
-      if (typeof saved.costBps === 'number') state.costBps = saved.costBps;
-      if (Array.isArray(saved.statuses)) {
-        saved.statuses.forEach((st, i) => {
-          if (!state.pipelineSteps[i]) return;
-          // A 'running' step can't still be running after a refresh — reset it.
-          state.pipelineSteps[i].status = st === 'running' ? 'idle' : st;
-        });
-      }
-    } catch (e) { /* ignore */ }
-  }
-
   // --- File status check ---
   async function checkFileStatus() {
     try {
@@ -93,7 +63,6 @@
       if (stepEl && exists && state.pipelineSteps[stepId - 1].status === 'idle') {
         state.pipelineSteps[stepId - 1].status = 'completed';
         renderStepper();
-        persistState();
       }
     });
   }
@@ -101,8 +70,6 @@
   // --- Router ---
   function navigate(page) {
     state.currentPage = page;
-    // Persist so a page refresh restores the open tab
-    try { localStorage.setItem('vih-page', page); } catch (e) { /* ignore */ }
     // Update nav buttons
     document.querySelectorAll('.topbar__nav-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.page === page);
@@ -135,37 +102,16 @@
     window.VIH.updateStepper(stepperEl, state);
   }
 
-  // --- Theme toggle ---
-  function setupThemeToggle() {
-    const btn = document.getElementById('theme-toggle');
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      try { localStorage.setItem('vih-theme', next); } catch (e) { /* ignore */ }
-    });
-  }
-
   // --- Init ---
   function init() {
-    // Theme toggle
-    setupThemeToggle();
-
-    // Restore pipeline step state saved before the last refresh
-    loadState();
-
     // Set up nav listeners
     document.querySelectorAll('.topbar__nav-btn').forEach(btn => {
       btn.addEventListener('click', () => navigate(btn.dataset.page));
     });
 
-    // Restore the active tab: URL hash takes priority, then the last
-    // page saved before a refresh, falling back to the pipeline.
-    let saved = '';
-    try { saved = localStorage.getItem('vih-page') || ''; } catch (e) { /* ignore */ }
-    const initialPage = window.location.hash.replace('#', '') || saved || 'pipeline';
-    navigate(initialPage);
+    // Read hash
+    const hash = window.location.hash.replace('#', '') || 'pipeline';
+    navigate(hash);
 
     // Check file status
     checkFileStatus();
@@ -184,7 +130,6 @@
   window.VIH.apiJson = apiJson;
   window.VIH.navigate = navigate;
   window.VIH.checkFileStatus = checkFileStatus;
-  window.VIH.persistState = persistState;
   window.VIH.API_BASE = API_BASE;
 
   document.addEventListener('DOMContentLoaded', init);

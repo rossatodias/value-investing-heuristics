@@ -99,8 +99,9 @@ def merge_mapping(fundamentals, mapping, selected_only=True):
     if selected_only and "selected" in m.columns:
         m = m[m["selected"].astype(bool)]
     cols = [c for c in ["cnpj_norm", "ticker", "source", "confidence"] if c in m.columns]
-    # ticker already normalized by load_mapping; the merge only adds NaN for misses.
-    return fundamentals.merge(m[cols], on="cnpj_norm", how="left")
+    out = fundamentals.merge(m[cols], on="cnpj_norm", how="left")
+    out["ticker"] = out["ticker"].astype("string").str.upper().str.replace(".SA", "", regex=False)
+    return out
 
 
 def build_mapping_from_known(cnpjs):

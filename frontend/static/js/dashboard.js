@@ -84,7 +84,6 @@
       VIH.makeTableSortable('selections-table');
       attachTabListeners();
       attachLightbox();
-      attachCollapsibles();
 
     } catch (err) {
       document.getElementById('dashboard-loading').innerHTML = `
@@ -131,7 +130,7 @@
           'Sharpe Ratio',
           VIH.formatNumber(avgSharpe, 2),
           'Media dos folds (c/ CDI como Rf)',
-          'indigo',
+          'blue',
           'barChart'
         )}
         ${VIH.createKpiCard(
@@ -145,7 +144,7 @@
           'Sortino Ratio',
           VIH.formatNumber(avgSortino, 2),
           'Penaliza apenas volatilidade negativa',
-          'violet',
+          'purple',
           'activity'
         )}
         ${VIH.createKpiCard(
@@ -191,7 +190,7 @@
       <div class="card" style="margin-bottom:var(--space-xl)">
         <div class="card__header">
           <div class="card__header-title">
-            <span style="color:var(--accent-blue)">${VIH.Icons.image}</span>
+            ${VIH.Icons.image}
             Graficos Principais
           </div>
         </div>
@@ -250,7 +249,7 @@
       <div class="card" style="margin-bottom:var(--space-xl)">
         <div class="card__header">
           <div class="card__header-title">
-            <span style="color:var(--accent-blue)">${VIH.Icons.zap}</span>
+            ${VIH.Icons.zap}
             Convergencia dos Otimizadores
           </div>
         </div>
@@ -297,16 +296,13 @@
     const table = VIH.createDataTable(filteredHeaders, filteredRows, 'summary-table');
 
     return `
-      <div class="card card--collapsible card--collapsed">
-        <div class="card__header card__header--toggle">
+      <div class="card">
+        <div class="card__header">
           <div class="card__header-title">
-            <span style="color:var(--accent-blue)">${VIH.Icons.table}</span>
+            ${VIH.Icons.table}
             Metricas do Backtest
           </div>
-          <div style="display:flex;align-items:center;gap:var(--space-md)">
-            <span class="badge badge--blue">backtest_summary.csv</span>
-            <span class="card__chevron">${VIH.Icons.chevronDown}</span>
-          </div>
+          <span class="badge badge--blue">backtest_summary.csv</span>
         </div>
         <div class="card__body" style="padding:0">
           ${table}
@@ -352,16 +348,13 @@
     const table = VIH.createDataTable(filteredHeaders, filteredRows, 'selections-table');
 
     return `
-      <div class="card card--collapsible card--collapsed">
-        <div class="card__header card__header--toggle">
+      <div class="card">
+        <div class="card__header">
           <div class="card__header-title">
-            <span style="color:var(--accent-blue)">${VIH.Icons.target}</span>
+            ${VIH.Icons.target}
             Acoes Selecionadas por Periodo
           </div>
-          <div style="display:flex;align-items:center;gap:var(--space-md)">
-            <span class="badge badge--blue">backtest_selections.csv</span>
-            <span class="card__chevron">${VIH.Icons.chevronDown}</span>
-          </div>
+          <span class="badge badge--purple">backtest_selections.csv</span>
         </div>
         <div class="card__body" style="padding:0">
           ${table}
@@ -374,16 +367,13 @@
     if (!markdown) return '';
     const html = VIH.simpleMarkdown(markdown);
     return `
-      <div class="card card--collapsible card--collapsed" style="margin-top:var(--space-xl)">
-        <div class="card__header card__header--toggle">
+      <div class="card" style="margin-top:var(--space-xl)">
+        <div class="card__header">
           <div class="card__header-title">
-            <span style="color:var(--accent-blue)">${VIH.Icons.fileText}</span>
+            ${VIH.Icons.fileText}
             Relatorio do Backtest
           </div>
-          <div style="display:flex;align-items:center;gap:var(--space-md)">
-            <span class="badge badge--blue">backtest_report.md</span>
-            <span class="card__chevron">${VIH.Icons.chevronDown}</span>
-          </div>
+          <span class="badge badge--green">backtest_report.md</span>
         </div>
         <div class="card__body">
           <div class="markdown-body">
@@ -408,17 +398,6 @@
             panel.classList.toggle('active', panel.id === targetId);
           });
         });
-      });
-    });
-  }
-
-  // --- Collapsible cards ---
-  function attachCollapsibles() {
-    document.querySelectorAll('.card--collapsible .card__header--toggle').forEach(header => {
-      header.addEventListener('click', (e) => {
-        // Ignore clicks on the badge (allows selecting the filename text)
-        if (e.target.closest('.badge')) return;
-        header.closest('.card--collapsible').classList.toggle('card--collapsed');
       });
     });
   }

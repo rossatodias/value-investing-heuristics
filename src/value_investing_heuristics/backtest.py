@@ -221,6 +221,7 @@ def run_backtest(
 
         ga_logger = TrialLogger(trial_log_path, strategy=f"fold_{fold.fold_id}_ga")
         sa_logger = TrialLogger(trial_log_path, strategy=f"fold_{fold.fold_id}_sa")
+        # ga_result = genetic_algorithm(fit, seed=seed + fold.fold_id, logger=ga_logger)
         ga_result = genetic_algorithm(
             fit,
             seed=seed + fold.fold_id,
@@ -229,6 +230,7 @@ def run_backtest(
             generations=40,
             patience=10,
         )
+        # sa_result = simulated_annealing(fit, seed=seed + 1000 + fold.fold_id, logger=sa_logger)
         sa_result = simulated_annealing(
             fit,
             seed=seed + 1000 + fold.fold_id,

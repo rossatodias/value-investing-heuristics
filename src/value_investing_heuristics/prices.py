@@ -2,14 +2,10 @@
 
 from __future__ import annotations
 
-import logging
 import time
 from pathlib import Path
 
 import pandas as pd
-import requests
-
-log = logging.getLogger(__name__)
 
 
 # Tickers que mudaram de codigo no Yahoo Finance
@@ -60,19 +56,20 @@ def download_yahoo_prices(tickers, start, end, benchmark="^BVSP"):
         for attempt in range(3):
             try:
                 data = yf.download(sym, start=start, end=end, auto_adjust=True, progress=False)
-                df = _extract_prices(data, sym, b3_ticker)
-                if df is not None and len(df) > 5:
-                    frames.append(df)
-                    break
-            except (requests.RequestException, ValueError, KeyError, IndexError) as exc:
-                log.debug("Download failed for %s (attempt %d): %s", sym, attempt + 1, exc)
+                if not data.empty and len(data) > 5:
+                    df = _extract_prices(data, sym, b3_ticker)
+                    if df is not None and not df.empty:
+                        frames.append(df)
+                        break
+            except Exception:
+                pass
             time.sleep(0.5 * (attempt + 1))
         else:
             if b3_ticker not in _KNOWN_UNAVAILABLE and not b3_ticker.startswith("^"):
                 failed.append(b3_ticker)
 
     if failed:
-        log.warning("%d tickers sem dados: %s", len(failed), failed)
+        print(f"Aviso: {len(failed)} tickers sem dados: {failed}")
 
     if not frames:
         raise RuntimeError("Nenhum preco baixado.")
@@ -87,6 +84,7 @@ def _extract_prices(data, symbol, b3_ticker):
 
     # yfinance >= 1.4 retorna MultiIndex columns: (Price, Ticker)
     if isinstance(out.columns, pd.MultiIndex):
+        # Pegar Close (que eh adjusted com auto_adjust=True)
         if "Close" in out.columns.get_level_values(0):
             close = out["Close"]
             if isinstance(close, pd.DataFrame):

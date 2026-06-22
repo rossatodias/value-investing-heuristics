@@ -1,0 +1,2 @@
+[console_scripts]
+vih = value_investing_heuristics.cli:main

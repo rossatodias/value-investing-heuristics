@@ -14,7 +14,7 @@
       <div class="page-header">
         <h1 class="page-header__title">Manual de Uso</h1>
         <p class="page-header__description">
-          Documentacao completa do pipeline Value Investing Heuristics.
+          Documentacao completa do pipeline Value Investing Heuristics (PO-236).
         </p>
       </div>
       <div id="tutorial-loading" class="empty-state">
@@ -81,13 +81,7 @@
     const items = [];
     const lines = markdown.split('\n');
     let counter = 0;
-    let inCodeBlock = false;
     for (const line of lines) {
-      if (/^```/.test(line)) {
-        inCodeBlock = !inCodeBlock;
-        continue;
-      }
-      if (inCodeBlock) continue;
       const match = line.match(/^(#{1,3})\s+(.+)$/);
       if (match) {
         const level = match[1].length;
@@ -101,11 +95,9 @@
 
   function renderTOC(items) {
     return items.map(item => {
-      let levelClass = '';
-      if (item.level === 2) levelClass = ' tutorial-nav__item--sub';
-      else if (item.level === 3) levelClass = ' tutorial-nav__item--subsub';
+      const subClass = item.level > 1 ? ' tutorial-nav__item--sub' : '';
       return `
-        <li class="tutorial-nav__item${levelClass}" data-section="${item.id}">
+        <li class="tutorial-nav__item${subClass}" data-section="${item.id}">
           ${item.text}
         </li>`;
     }).join('');

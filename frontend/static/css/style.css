@@ -1,36 +1,51 @@
 /* =============================================================
    VIH — Value Investing Heuristics · Design System
-   Theme: Clean · Tailwind Blue/Green · Light + Dark
+   Theme: Quant Dark
    ============================================================= */
 
 /* --- Google Fonts --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* --- Theme-agnostic tokens --- */
+/* --- Design Tokens --- */
 :root {
-  /* Accent colors — Nordic/Slate palette */
-  --accent-green: #10b981;   /* emerald-500 */
-  --accent-green-dim: rgba(16, 185, 129, 0.14);
-  --accent-red: #ef4444;     /* red-500 */
-  --accent-red-dim: rgba(239, 68, 68, 0.14);
-  --accent-blue: #5f8d7e;    /* Sage Emerald */
-  --accent-blue-dim: rgba(95, 141, 126, 0.14);
-  --accent-amber: #f59e0b;   /* amber-500 */
-  --accent-amber-dim: rgba(245, 158, 11, 0.14);
-  --accent-purple: #14b8a6;  /* teal-500 */
-  --accent-purple-dim: rgba(20, 184, 166, 0.14);
-  --accent-cyan: #06b6d4;    /* cyan-500 */
-  --accent-cyan-dim: rgba(6, 182, 212, 0.14);
-  --accent-rose: #f43f5e;    /* rose-500 */
-  --accent-rose-dim: rgba(244, 63, 94, 0.14);
-  --accent-indigo: #4f6bed;  /* indigo — distinct blue for KPI cards */
-  --accent-indigo-dim: rgba(79, 107, 237, 0.14);
-  --accent-violet: #8b5cf6;  /* violet — distinct purple for KPI cards */
-  --accent-violet-dim: rgba(139, 92, 246, 0.14);
+  /* Backgrounds */
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-tertiary: #1a2332;
+  --bg-elevated: #1e293b;
+  --bg-glass: rgba(17, 24, 39, 0.7);
 
-  /* Gradients — Sage Emerald */
-  --gradient-primary: linear-gradient(135deg, #5f8d7e, #4a7a6b);
+  /* Borders */
+  --border-default: #2d3a4d;
+  --border-subtle: #1e293b;
+  --border-focus: #3b82f6;
+
+  /* Text */
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0a0e17;
+
+  /* Accent colors */
+  --accent-green: #10b981;
+  --accent-green-dim: rgba(16, 185, 129, 0.15);
+  --accent-red: #ef4444;
+  --accent-red-dim: rgba(239, 68, 68, 0.15);
+  --accent-blue: #3b82f6;
+  --accent-blue-dim: rgba(59, 130, 246, 0.15);
+  --accent-amber: #f59e0b;
+  --accent-amber-dim: rgba(245, 158, 11, 0.15);
+  --accent-purple: #8b5cf6;
+  --accent-purple-dim: rgba(139, 92, 246, 0.15);
+  --accent-cyan: #06b6d4;
+  --accent-cyan-dim: rgba(6, 182, 212, 0.15);
+  --accent-rose: #f43f5e;
+  --accent-rose-dim: rgba(244, 63, 94, 0.15);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
   --gradient-success: linear-gradient(135deg, #10b981, #06b6d4);
+  --gradient-header: linear-gradient(135deg, #0a0e17 0%, #111827 100%);
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -42,6 +57,14 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.3);
+  --shadow-glow-green: 0 0 20px rgba(16, 185, 129, 0.3);
+  --shadow-glow-purple: 0 0 20px rgba(139, 92, 246, 0.3);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -56,69 +79,6 @@
   --space-xl: 32px;
   --space-2xl: 48px;
   --space-3xl: 64px;
-}
-
-/* --- Dark theme (default) — Nordic/Slate --- */
-:root,
-:root[data-theme="dark"] {
-  --bg-primary: #16181d;     /* Anthracite */
-  --bg-secondary: #1c1e24;   /* Graphite */
-  --bg-tertiary: #24262d;    /* Slate */
-  --bg-elevated: #2c2f37;    /* Lifted */
-  --bg-glass: rgba(22, 24, 29, 0.80);
-
-  --border-default: #32353d;
-  --border-subtle: #272930;
-  --border-focus: #5f8d7e;    /* Sage Emerald */
-
-  --text-primary: #e4e5e9;
-  --text-secondary: #9a9da6;
-  --text-muted: #5c5f69;
-  --text-inverse: #16181d;
-
-  --gradient-header: linear-gradient(135deg, #16181d 0%, #1c1e24 100%);
-
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.38);
-  --shadow-lg: 0 10px 34px rgba(0, 0, 0, 0.48);
-  --shadow-glow-blue: 0 6px 18px rgba(95, 141, 126, 0.22);
-  --shadow-glow-green: 0 6px 18px rgba(16, 185, 129, 0.26);
-  --shadow-glow-purple: 0 6px 18px rgba(20, 184, 166, 0.26);
-}
-
-/* --- Light theme — Nordic/Slate --- */
-:root[data-theme="light"] {
-  --bg-primary: #f3f4f6;      /* Ice */
-  --bg-secondary: #ffffff;     /* Snow */
-  --bg-tertiary: #e8eaed;     /* Frost */
-  --bg-elevated: #ffffff;
-  --bg-glass: rgba(243, 244, 246, 0.84);
-
-  --border-default: #d1d5db;
-  --border-subtle: #e8eaed;
-  --border-focus: #5f8d7e;     /* Sage Emerald */
-
-  --text-primary: #1a1c22;
-  --text-secondary: #4b5058;
-  --text-muted: #9a9da6;
-  --text-inverse: #e4e5e9;
-
-  --gradient-header: linear-gradient(135deg, #f3f4f6 0%, #e8eaed 100%);
-
-  --shadow-sm: 0 1px 2px rgba(26, 28, 34, 0.06);
-  --shadow-md: 0 4px 14px rgba(26, 28, 34, 0.08);
-  --shadow-lg: 0 12px 34px rgba(26, 28, 34, 0.12);
-  --shadow-glow-blue: 0 6px 18px rgba(95, 141, 126, 0.14);
-  --shadow-glow-green: 0 6px 18px rgba(16, 185, 129, 0.16);
-  --shadow-glow-purple: 0 6px 18px rgba(20, 184, 166, 0.16);
-}
-
-html {
-  transition: background var(--transition-base);
-}
-
-body {
-  transition: background var(--transition-base), color var(--transition-base);
 }
 
 /* --- Reset --- */
@@ -309,46 +269,13 @@ input, select, textarea {
 .topbar__nav-btn.active {
   background: var(--accent-blue-dim);
   color: var(--accent-blue);
-  border-color: rgba(95, 141, 126, 0.35);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .topbar__nav-btn svg {
   width: 16px;
   height: 16px;
 }
-
-/* --- Theme Toggle --- */
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  margin-left: var(--space-sm);
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-default);
-  transition: all var(--transition-fast);
-}
-
-.theme-toggle:hover {
-  background: var(--bg-tertiary);
-  color: var(--accent-blue);
-  border-color: var(--accent-blue);
-}
-
-.theme-toggle svg {
-  width: 18px;
-  height: 18px;
-}
-
-/* Show moon in dark mode, sun in light mode */
-.theme-toggle__sun { display: none; }
-.theme-toggle__moon { display: block; }
-
-:root[data-theme="light"] .theme-toggle__sun { display: block; }
-:root[data-theme="light"] .theme-toggle__moon { display: none; }
 
 /* --- Main Content --- */
 .main-content {
@@ -414,65 +341,16 @@ input, select, textarea {
   gap: var(--space-sm);
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-primary);
-}
-
-.card__header-title > span {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
 }
 
 .card__header-title svg {
   width: 18px;
   height: 18px;
-  color: inherit;
-  flex-shrink: 0;
+  color: var(--accent-blue);
 }
 
 .card__body {
   padding: var(--space-lg);
-}
-
-/* --- Collapsible Card --- */
-.card__header--toggle {
-  cursor: pointer;
-  user-select: none;
-  transition: background var(--transition-fast);
-}
-
-.card__header--toggle:hover {
-  background: var(--bg-tertiary);
-}
-
-.card__chevron {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  transition: transform var(--transition-base), color var(--transition-fast);
-}
-
-.card__chevron svg {
-  width: 18px;
-  height: 18px;
-}
-
-.card__header--toggle:hover .card__chevron {
-  color: var(--text-primary);
-}
-
-/* Collapsed state: hide body, rotate chevron to point right */
-.card--collapsed .card__body {
-  display: none;
-}
-
-.card--collapsed .card__header--toggle {
-  border-bottom: none;
-}
-
-.card--collapsed .card__chevron {
-  transform: rotate(-90deg);
 }
 
 .card__footer {
@@ -530,8 +408,6 @@ input, select, textarea {
 .kpi-card--purple::before { background: var(--accent-purple); opacity: 1; }
 .kpi-card--cyan::before { background: var(--accent-cyan); opacity: 1; }
 .kpi-card--amber::before { background: var(--accent-amber); opacity: 1; }
-.kpi-card--indigo::before { background: var(--accent-indigo); opacity: 1; }
-.kpi-card--violet::before { background: var(--accent-violet); opacity: 1; }
 
 .kpi-card__icon {
   width: 36px;
@@ -554,8 +430,6 @@ input, select, textarea {
 .kpi-card__icon--purple { background: var(--accent-purple-dim); color: var(--accent-purple); }
 .kpi-card__icon--cyan { background: var(--accent-cyan-dim); color: var(--accent-cyan); }
 .kpi-card__icon--amber { background: var(--accent-amber-dim); color: var(--accent-amber); }
-.kpi-card__icon--indigo { background: var(--accent-indigo-dim); color: var(--accent-indigo); }
-.kpi-card__icon--violet { background: var(--accent-violet-dim); color: var(--accent-violet); }
 
 .kpi-card__label {
   font-size: 0.75rem;
@@ -728,9 +602,9 @@ input, select, textarea {
 }
 
 .stepper__step--completed .stepper__circle {
-  border-color: var(--accent-blue);
+  border-color: var(--accent-green);
   color: #fff;
-  background: var(--accent-blue);
+  background: var(--accent-green);
 }
 
 .stepper__step--error .stepper__circle {
@@ -760,7 +634,7 @@ input, select, textarea {
 }
 
 .stepper__step--completed .stepper__label {
-  color: var(--accent-blue);
+  color: var(--accent-green);
 }
 
 .stepper__connector {
@@ -773,7 +647,7 @@ input, select, textarea {
 
 .stepper__step--completed + .stepper__step .stepper__connector,
 .stepper__step--completed .stepper__connector {
-  background: var(--accent-blue);
+  background: var(--accent-green);
 }
 
 /* --- Step Detail Card --- */
@@ -856,7 +730,7 @@ input, select, textarea {
 
 /* --- Terminal --- */
 .terminal {
-  background: #12141a;
+  background: #0d1117;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -895,7 +769,7 @@ input, select, textarea {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   line-height: 1.8;
-  color: #9fb1c9;
+  color: var(--text-secondary);
 }
 
 .terminal__line {
@@ -910,7 +784,7 @@ input, select, textarea {
 }
 
 .terminal__text {
-  color: #9fb1c9;
+  color: var(--text-secondary);
   word-break: break-all;
 }
 
@@ -1136,7 +1010,6 @@ input, select, textarea {
   width: 14px;
   height: 14px;
   color: var(--accent-blue);
-  flex-shrink: 0;
 }
 
 .plot-card img {
@@ -1150,12 +1023,6 @@ input, select, textarea {
   color: var(--text-primary);
   line-height: 1.7;
   font-size: 0.9rem;
-}
-
-.markdown-body h1,
-.markdown-body h2,
-.markdown-body h3 {
-  scroll-margin-top: 80px;
 }
 
 .markdown-body h1 {
@@ -1200,12 +1067,12 @@ input, select, textarea {
   background: var(--bg-tertiary);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
-  color: var(--accent-blue);
+  color: var(--accent-cyan);
 }
 
 .markdown-body pre {
-  background: #12141a;
-  border: 1px solid var(--border-subtle);
+  background: #0d1117;
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   padding: var(--space-md);
   overflow-x: auto;
@@ -1260,18 +1127,6 @@ input, select, textarea {
   background: var(--accent-blue-dim);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   color: var(--text-secondary);
-}
-
-/* Inline code inside the note/blockquote: dark sage to harmonize with the
-   green-tinted background instead of low-contrast blue/cyan. */
-.markdown-body blockquote code {
-  background: rgba(74, 122, 107, 0.16);
-  color: #3a5d51;
-}
-
-:root[data-theme="dark"] .markdown-body blockquote code {
-  background: rgba(122, 168, 152, 0.18);
-  color: #a7c4b8;
 }
 
 .markdown-body hr {
@@ -1387,7 +1242,7 @@ input, select, textarea {
 .config-card__value {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--accent-blue);
+  color: var(--accent-cyan);
   margin-bottom: var(--space-xs);
 }
 
@@ -1552,11 +1407,6 @@ input, select, textarea {
   font-size: 0.75rem;
 }
 
-.tutorial-nav__item--subsub {
-  padding-left: calc(var(--space-xl) + var(--space-lg));
-  font-size: 0.72rem;
-}
-
 /* --- Status Indicator --- */
 .status-dot {
   width: 8px;
@@ -1592,14 +1442,6 @@ input, select, textarea {
   height: 48px;
   color: var(--text-muted);
   margin-bottom: var(--space-md);
-}
-
-/* Icons inside buttons keep button styling, not the large muted glyph */
-.empty-state .btn svg {
-  width: 16px;
-  height: 16px;
-  color: inherit;
-  margin-bottom: 0;
 }
 
 .empty-state__title {

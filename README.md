@@ -6,41 +6,39 @@ Projeto reprodutivel para selecao de acoes de valor com criterios inspirados em 
 
 ## Ambiente
 
-As dependencias sao gerenciadas exclusivamente pelo `pyproject.toml`. Instale o
-pacote em modo editavel (inclui as libs de runtime e, com `[dev]`, o pytest):
-
 ```bash
 # Linux / WSL
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"
+pip install -r requirements.txt
+pip install -e .
 ```
 
 ```powershell
 # Windows PowerShell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e ".[dev]"
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -e .
 ```
 
-## Interface web
+## Pipeline rapido
 
 ```bash
-python main.py            # ou: vih-web
-# abre em http://localhost:5050  (porta configuravel via VIH_PORT)
-```
+# 1. Preparar fundamentals
+vih prepare
 
-A interface executa as etapas do pipeline e exibe os resultados. Para rodar
-direto pela linha de comando, use a CLI `vih` abaixo.
+# 2. Mapeamento CNPJ -> ticker
+vih fetch-mapping
 
-## Pipeline pela CLI
+# 3. Precos ajustados
+vih fetch-prices
 
-```bash
-vih prepare                  # 1. fundamentals a partir de data/raw/itr_completo.csv
-vih fetch-mapping            # 2. mapeamento CNPJ -> ticker
-vih fetch-prices             # 3. precos ajustados
-vih fetch-cdi                # 4. dados auxiliares (CDI + IBrX-100)
+# 4. Dados auxiliares (CDI + IBrX-100)
+vih fetch-cdi
 vih fetch-ibrx100
-vih backtest --cost-bps 10   # 5. backtest completo
+
+# 5. Backtest completo
+vih backtest --cost-bps 10
 ```
 
 ## Decisoes implementadas

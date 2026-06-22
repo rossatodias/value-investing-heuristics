@@ -11,10 +11,8 @@ outputs/*.json
 outputs/*.md
 outputs/*.png
 !data/raw/.gitkeep
-!data/raw/itr_completo.csv
 !data/processed/.gitkeep
 !outputs/.gitkeep
 *.png
 *.pdf
 *.ipynb
-*.egg-info/
